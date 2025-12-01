@@ -1,6 +1,6 @@
 def main():
  
-    fileName = "test.txt"
+    fileName = "input.txt"
     path = "../../../Advent Of Code Cases/2025/Day1/" + fileName
 
     rotations = []
@@ -9,7 +9,6 @@ def main():
         for line in file:
             rotations.append(line.strip())
 
-    clickCount = 0
     currentPos = 50
     countOfClicksSimple = 0
     countOfClicksComplex = 0
@@ -30,37 +29,35 @@ def main():
         
 def applyRotation(currentPos, rotation, method):
 
-    finalPos = currentPos
-
-    direction = rotation[0]
     clickCount = 0
+    direction = rotation[0]
     
     amount = int(rotation[1:])
     complexClicks = amount // 100
-
     amount = amount%100
+
     
     if direction == "L":
         finalPos = currentPos - amount
         if finalPos < 0:
-            if method == "0x434C49434B":
+            if method == "0x434C49434B" and currentPos != 0:
                 clickCount += 1
-            finalPos *= -1
-            finalPos = 100 - finalPos
+            finalPos = 100 + finalPos
+        elif finalPos == 0 and method == "0x434C49434B":
+            clickCount += 1
     else:
         finalPos = currentPos + amount
         if finalPos >= 100:
-            if method == "0x434C49434B":
+            if method == "0x434C49434B" and currentPos != 0:
                 clickCount += 1
             finalPos %= 100
 
-    if finalPos == 0:
-        clickCount += 1
 
     if method == "0x434C49434B":
         clickCount += complexClicks
-    if method == "0x434C49434B":
-        print(rotation, clickCount)
+    elif method == "simple" and finalPos == 0:
+        clickCount += 1
+
     return finalPos,clickCount
         
 if __name__ == "__main__":
