@@ -6,11 +6,36 @@ def main():
         point2 = [x1,y2]
         point3 = [x2,y1]
         point4 = [x2,y2]
-        
-        return isPointValid(point1,hLines,vLines)\
+
+        fourPoints = isPointValid(point1,hLines,vLines)\
                and isPointValid(point2,hLines,vLines)\
                and isPointValid(point3,hLines,vLines)\
                and isPointValid(point4,hLines,vLines)
+
+        return fourPoints
+        if not fourPoints:
+            return False
+
+
+        for i in range(x1,x2+1):
+            isFirstValid = isPointValid([i,y1],hLines,vLines)
+            if not isFirstValid:
+                return False
+            isSecondValid = isPointValid([i,y2],hLines,vLines)
+            if not isSecondValid:
+                return False
+
+        for i in range(y1,y2+1):
+            isFirstValid = isPointValid([x1,i],hLines,vLines)
+            if not isFirstValid:
+                return False
+            isSecondValid = isPointValid([x2,i],hLines,vLines)
+            if not isSecondValid:
+                return False
+
+        return True       
+
+        
 
 
     def isPointValid(point,hLines,vLines):
@@ -53,7 +78,7 @@ def main():
 
         isValid = isTopOk and isBottomOk and isLeftOk and isRightOk
         cache[currHash] = isValid
-        if x== 17561  and y == 14395:
+        if x == 17561 and y == 14395:
             print("Here:",isValid)
             print("top",topHLine)
             print("bottom",bottomHLine)
@@ -62,7 +87,7 @@ def main():
         return isValid
 
     
-    fileName = "test.txt"
+    fileName = "input.txt"
     path = "../../../Advent Of Code Cases/2025/Day9/" + fileName
 
     points = []
@@ -148,19 +173,22 @@ def main():
 
     maxArea = 0
     cache = {}
+    print("len",len(points))
     for i in range(len(points)):
+        #print(i)
         for j in range(i+1,len(points)):
+            #print("j",j)
             x1 = points[i][0]
             y1 = points[i][1]
             x2 = points[j][0]
             y2 = points[j][1]
             
             # Are all 4 points in area?
-            isValid = arePointsValid(x1,y1,x2,y2,horizontalLines,verticalLines)
-            if isValid:
-                currentArea = (abs(x1-x2)+1)*\
-                              (abs(y1-y2)+1)
-                if currentArea > maxArea:
+            currentArea = (abs(x1-x2)+1)*\
+                          (abs(y1-y2)+1)
+            if currentArea > maxArea:
+                isValid = arePointsValid(x1,y1,x2,y2,horizontalLines,verticalLines)
+                if isValid:
                     topX1 = x1
                     topX2 = x2
                     topY1 = y1
