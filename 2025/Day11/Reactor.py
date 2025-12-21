@@ -1,6 +1,6 @@
 def main():
 
-    fileName = "input.txt"
+    fileName = "test2.txt"
     path = "../../../Advent Of Code Cases/2025/Day11/" + fileName
 
     devices = {}
